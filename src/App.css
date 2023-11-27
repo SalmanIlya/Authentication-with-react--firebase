@@ -1,6 +1,7 @@
-body{
+body {
   overflow-x: hidden !important;
 }
-.active{
+
+.active {
   color: blue !important;
 }

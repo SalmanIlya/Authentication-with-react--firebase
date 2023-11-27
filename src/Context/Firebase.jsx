@@ -1,7 +1,14 @@
 import { initializeApp } from "firebase/app";
 import React, { useContext, createContext, useState, useEffect } from "react";
-import {getFirestore,collection,addDoc,getDocs,getDoc, doc} from "firebase/firestore"
-import {getStorage,ref,uploadBytes,getDownloadURL} from 'firebase/storage';
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  getDoc,
+  doc,
+} from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -27,10 +34,10 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 export const Usefirebase = () => useContext(FirebaseContext);
-export const firestore=getFirestore(app)
-const Storage=getStorage(app)
+export const firestore = getFirestore(app);
+const Storage = getStorage(app);
 const auth = getAuth();
-const googleProvider = new GoogleAuthProvider()
+const googleProvider = new GoogleAuthProvider();
 export const FirebaseProvider = (props) => {
   const signupuser = (email, password) => {
     createUserWithEmailAndPassword(auth, email, password)
@@ -69,42 +76,51 @@ export const FirebaseProvider = (props) => {
   };
   const isLogin = User ? true : false;
 
-const LoginWithGoogle=()=>{
-  signInWithPopup(auth,googleProvider)
-}
-const downloadimg=(path)=>{
-  return getDownloadURL(ref(Storage,path))
-}
-const CreateBlogspage=async(title,description,img)=>{
-  const imageupload=ref(Storage,`upload/images/${Date.now()}-${img.name}`)
-  const uploadimg=await uploadBytes(imageupload,img)
-  const date=Date()
-  // const time=date.time()
-  return await addDoc(collection(firestore,"Addblogs"),{
-    title:title,
-    description:description,
-    img:uploadimg.ref.fullPath,
-    userID:User.uid,
-    userEmail:User.email,
-    Username:User.displayName,
-    userimage:User.photoURL,
-    date:Date()
-
-  })
-}
-const getAllBlogs=()=>{
-  return getDocs(collection(firestore,"Addblogs"))
-}
-const getsingleblog=async(id)=>{
-  return await getDoc(doc(firestore,"Addblogs",id))
-}
+  const LoginWithGoogle = () => {
+    signInWithPopup(auth, googleProvider);
+  };
+  const downloadimg = (path) => {
+    return getDownloadURL(ref(Storage, path));
+  };
+  const CreateBlogspage = async (title, description, img) => {
+    const imageupload = ref(Storage, `upload/images/${Date.now()}-${img.name}`);
+    const uploadimg = await uploadBytes(imageupload, img);
+    const date = Date();
+    // const time=date.time()
+    return await addDoc(collection(firestore, "Addblogs"), {
+      title: title,
+      description: description,
+      img: uploadimg.ref.fullPath,
+      userID: User.uid,
+      userEmail: User.email,
+      Username: User.displayName,
+      userimage: User.photoURL,
+      date: Date(),
+    });
+  };
+  const getAllBlogs = () => {
+    return getDocs(collection(firestore, "Addblogs"));
+  };
+  const getsingleblog = async (id) => {
+    return await getDoc(doc(firestore, "Addblogs", id));
+  };
   return (
     <FirebaseContext.Provider
-      value={{ Loginuser, signupuser, User, logoutuser, isLogin,LoginWithGoogle, CreateBlogspage,getAllBlogs,
-        downloadimg,getsingleblog }}
+      value={{
+        Loginuser,
+        signupuser,
+        User,
+        logoutuser,
+        isLogin,
+        LoginWithGoogle,
+        CreateBlogspage,
+        getAllBlogs,
+        downloadimg,
+        getsingleblog,
+      }}
     >
       {props.children}
     </FirebaseContext.Provider>
   );
 };
-// Initialize Firebase
+
