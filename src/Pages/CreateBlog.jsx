@@ -1,6 +1,13 @@
-import React from "react";
-
+import React, { useState } from "react";
+import {Usefirebase} from '../Context/Firebase';
 const CreateBlog = () => {
+    const firebase=Usefirebase()
+const [Title, setTitle] = useState("")
+const [Description, setDescription] = useState("")
+const [image, setimage] = useState("")
+const SendData=()=>{
+    firebase.CreateBlogspage(Title,Description,image)
+}
   return (
     <div className="">
   <section className="bg-gray-50 dark:bg-gray-900">
@@ -15,11 +22,11 @@ const CreateBlog = () => {
               <div className="space-y-4 md:space-y-6" >
                   <div>
                       <label for="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-                      <input type="text" name="Title" id="Title" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Title" required=""/>
+                      <input onChange={(e)=>{setTitle(e.target.value)}} type="text" name="Title" id="Title" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Title" required=""/>
                   </div>
                   <div>
                       <label for="Description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                      <textarea rows={5} type="text" name="Description" id="Description" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Description" required=""/>
+                      <textarea onChange={(e)=>{setDescription(e.target.value)}} rows={5} type="text" name="Description" id="Description" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Description" required=""/>
                   </div>
                   
 <div class="flex items-center justify-center w-full">
@@ -31,12 +38,14 @@ const CreateBlog = () => {
             <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
             <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
         </div>
-        <input id="dropzone-file" type="file" class="hidden" />
+        <input id="dropzone-file" type="file" onChange={(e)=>{
+            setimage(e.target.files[0])
+        }} class="hidden" />
     </label>
 </div> 
 
                   
-                  <button  className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
+                  <button  onClick={SendData} className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
                  
               </div>
           </div>
