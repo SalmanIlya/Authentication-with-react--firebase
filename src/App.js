@@ -6,7 +6,8 @@ import Home from "./Pages/Home";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import CreateBlog from "./Pages/CreateBlog";
-
+import "./App.css";
+import SingleBlog from "./Pages/SingleBlog";
 const App = () => {
   return (
     <Routes>
@@ -21,13 +22,24 @@ const App = () => {
           </div>
         }
       />
-        <Route
+      <Route
         path="/createblog"
         exect
         element={
           <div>
             <Navbar />
             <CreateBlog />
+            <Footer />
+          </div>
+        }
+      />
+      <Route
+        path="/blog/:id"
+        exect
+        element={
+          <div>
+            <Navbar />
+            <SingleBlog />
             <Footer />
           </div>
         }
