@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import React, { useContext, createContext, useState, useEffect } from "react";
-import {getFirestore,collection,addDoc} from "firebase/firestore"
-import {getStorage,ref,uploadBytes} from 'firebase/storage';
+import {getFirestore,collection,addDoc,getDocs,getDoc, doc} from "firebase/firestore"
+import {getStorage,ref,uploadBytes,getDownloadURL} from 'firebase/storage';
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -72,9 +72,14 @@ export const FirebaseProvider = (props) => {
 const LoginWithGoogle=()=>{
   signInWithPopup(auth,googleProvider)
 }
+const downloadimg=(path)=>{
+  return getDownloadURL(ref(Storage,path))
+}
 const CreateBlogspage=async(title,description,img)=>{
   const imageupload=ref(Storage,`upload/images/${Date.now()}-${img.name}`)
   const uploadimg=await uploadBytes(imageupload,img)
+  const date=Date()
+  // const time=date.time()
   return await addDoc(collection(firestore,"Addblogs"),{
     title:title,
     description:description,
@@ -83,13 +88,20 @@ const CreateBlogspage=async(title,description,img)=>{
     userEmail:User.email,
     Username:User.displayName,
     userimage:User.photoURL,
-    date:Date.now()
+    date:Date()
+
   })
 }
-
+const getAllBlogs=()=>{
+  return getDocs(collection(firestore,"Addblogs"))
+}
+const getsingleblog=async(id)=>{
+  return await getDoc(doc(firestore,"Addblogs",id))
+}
   return (
     <FirebaseContext.Provider
-      value={{ Loginuser, signupuser, User, logoutuser, isLogin,LoginWithGoogle, CreateBlogspage }}
+      value={{ Loginuser, signupuser, User, logoutuser, isLogin,LoginWithGoogle, CreateBlogspage,getAllBlogs,
+        downloadimg,getsingleblog }}
     >
       {props.children}
     </FirebaseContext.Provider>
