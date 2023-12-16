@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Usefirebase } from "../Context/Firebase";
 import { FcGoogle } from "react-icons/fc";
+import { ToastContainer, toast } from 'react-toastify';
 const Login = () => {
   const navigate = useNavigate();
   const firebase = Usefirebase();
@@ -10,18 +11,24 @@ const Login = () => {
   useEffect(() => {
     if (firebase.isLogin) {
       navigate("/");
+      toast.success("Login successfully")
+
     }
   }, [firebase, navigate]);
   const LoginUser = () => {
-    if (!Email && !Password) {
-      alert("all fealds are required");
-    } else {
+    if (!Email) {
+      toast.error("all fealds are required");
+    } else if(!Password){
+      toast.error("all fealds are required");
+
+    }
+     else {
       firebase.Loginuser(Email, Password);
       navigate("/");
-      console.log(Email, Password);
+      toast.success("Login successfully")
     }
   };
-  console.log(firebase.isLogin);
+  
 
   return (
     <div>
@@ -38,6 +45,7 @@ const Login = () => {
             />
             Flowbite
           </a>
+          <ToastContainer/>
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -89,13 +97,8 @@ const Login = () => {
                 >
                   Sign in
                 </button>
-                <p className="text-center">or</p>
-                <button
-                  onClick={firebase.LoginWithGoogle}
-                  className="w-full text-black border-2 border-blue-600  hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 flex flex-row justify-center items-center "
-                >
-                  <p> Sign in With Google</p> <FcGoogle className="text-xl " />
-                </button>
+              
+                
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Don’t have an account yet?{" "}
                   <Link
