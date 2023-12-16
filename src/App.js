@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import CreateBlog from "./Pages/CreateBlog";
 import "./App.css";
 import SingleBlog from "./Pages/SingleBlog";
+import About from "./Pages/About";
 const App = () => {
   return (
     <Routes>
@@ -18,6 +19,17 @@ const App = () => {
           <div>
             <Navbar />
             <Home />
+            <Footer />
+          </div>
+        }
+      />
+       <Route
+        path="/About"
+        exect
+        element={
+          <div>
+            <Navbar />
+            <About />
             <Footer />
           </div>
         }
