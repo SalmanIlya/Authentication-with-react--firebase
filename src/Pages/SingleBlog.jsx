@@ -14,7 +14,7 @@ const SingleBlog = () => {
         setdata(res.data());
       });
     } catch (err) {
-      console.log("error :", err);
+    
     }
   }, []);
   useEffect(() => {
@@ -24,9 +24,9 @@ const SingleBlog = () => {
         seturl(res);
       });
     }
-    console.log(url);
+  
   }, [data]);
-  console.log(data);
+ 
 
   if (data === null) {
     return (
@@ -38,8 +38,8 @@ const SingleBlog = () => {
   }
 
   return (
-    <div className="max-h-auto min-h-screen  p-20">
-      <img src={url} alt="" className="h-96 w-72 sm:h-40 md:h-40 rounded-2xl " />
+    <div className="flex flex-col  items-center max-h-auto min-h-screen  p-20">
+      <img src={url} alt="" className="lg:h-1/2 lg:w-1/2 rounded-2xl " />
       <div>
         <h1 className="text-3xl font-bold text-gray-800 h-auto">
           {data.title}
