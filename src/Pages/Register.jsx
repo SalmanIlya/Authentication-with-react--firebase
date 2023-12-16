@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Usefirebase } from "../Context/Firebase";
 import { FcGoogle } from "react-icons/fc";
+import { ToastContainer, toast } from 'react-toastify';
 const Register = () => {
   const navigate = useNavigate();
   const firebase = Usefirebase();
@@ -9,24 +10,34 @@ const Register = () => {
   const [ConfurmPassword, setConfurmPassword] = useState("");
   const [Password, setPassword] = useState("");
   const RegisterUser = () => {
-    if (!Email && !Password && !ConfurmPassword) {
-    } else {
-      if (Password === ConfurmPassword) {
-        firebase.signupuser(Email, Password);
-        navigate("/");
-        console.log(Email, Password, ConfurmPassword);
-      } else {
-        console.log("Password does not match");
+    if (!Email) {
+      toast.error("all fields are required")
+    } else
+     if(!Password ){
+
+      toast.error("all fields are required")
+    
+    }else if(!ConfurmPassword){
+      toast.error("all fields are required")
+
+    }else{
+      if(Password.length<8){
+toast.error("password must be 8 characters")
+      }else{
+
+        if (Password === ConfurmPassword) {
+          firebase.signupuser(Email, Password);
+          navigate("/Login");
+       toast.success("Account Create Successfully")
+        } else {
+          toast.error("Password does not match")
+        
+        }
       }
+     
     }
   };
-  const Sigupwithgoogle = () => {
-    console.log("w");
-    if (firebase.isLogin) {
-      firebase.LoginWithGoogle();
-      navigate("/");
-    }
-  };
+
   useEffect(() => {
     if (firebase.isLogin) {
       navigate("/");
@@ -36,6 +47,9 @@ const Register = () => {
     <div>
       <section className="bg-gray-50 dark:bg-gray-900">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+     
+         <ToastContainer />
+
           <a
             href="#"
             className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
@@ -117,13 +131,7 @@ const Register = () => {
                 >
                   Sign in
                 </button>
-                <p className="text-center">or</p>
-                <button
-                  onClick={firebase.LoginWithGoogle}
-                  className="w-full text-black border-2 border-blue-600  hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 flex flex-row justify-center items-center "
-                >
-                  <p> Sign in With Google</p> <FcGoogle className="text-xl " />
-                </button>
+               
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Already have an account?{" "}
                   <Link
