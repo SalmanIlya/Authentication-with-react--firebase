@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Usefirebase } from "../Context/Firebase";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 const CreateBlog = () => {
   const firebase = Usefirebase();
   const [Title, setTitle] = useState("");
@@ -9,22 +10,24 @@ const CreateBlog = () => {
   const navigator = useNavigate();
   const SendData = () => {
     if (!firebase.isLogin) {
-      alert("Please Login First");
+      toast.info(" please Login First")
       navigator("/Login");
     } else {
       const tit = Title === "";
       const des = Description === "";
       const img = image === "";
-      console.log(tit, des, img);
+    
       if (tit) {
-        alert("title is required");
+       
+        toast.error("title is required")
       } else if (des) {
-        alert("description is required");
+       
+        toast.error("description is required")
       } else if (img) {
-        alert("img is required");
+        toast.error("image is required")
       } else {
         firebase.CreateBlogspage(Title, Description, image).then(() => {
-          alert("Blog Created");
+          toast.success("blog is created")
           navigator("/");
           setTitle("");
           setDescription("");
@@ -37,6 +40,7 @@ const CreateBlog = () => {
   return (
     <div className="">
       <section className="bg-gray-50 dark:bg-gray-900">
+        <ToastContainer/>
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <a
             href="#"
