@@ -42,7 +42,7 @@ export const FirebaseProvider = (props) => {
   const signupuser = (email, password) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((res) => {
-        console.log(res);
+     
       })
       .catch(() => {
         console.log("error");
@@ -85,8 +85,7 @@ export const FirebaseProvider = (props) => {
   const CreateBlogspage = async (title, description, img) => {
     const imageupload = ref(Storage, `upload/images/${Date.now()}-${img.name}`);
     const uploadimg = await uploadBytes(imageupload, img);
-    const date = Date();
-    // const time=date.time()
+  
     return await addDoc(collection(firestore, "Addblogs"), {
       title: title,
       description: description,

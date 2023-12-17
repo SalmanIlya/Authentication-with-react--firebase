@@ -11,7 +11,7 @@ const Card = ({ data, id }) => {
       seturl(res);
     });
   }, []);
-  console.log(id);
+
   return (
     <Link
       to={`/Blog/${id}`}
