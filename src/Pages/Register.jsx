@@ -45,7 +45,7 @@ toast.error("password must be 8 characters")
   }, [firebase, navigate]);
   return (
     <div>
-      <section className="bg-gray-200 dark:bg-gray-900">
+      <section className="bg-gray-200 dark:bg-gray-900 max-h-auto min-h-screen">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
      
          <ToastContainer />

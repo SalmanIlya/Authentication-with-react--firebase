@@ -18,6 +18,7 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
+import { toast } from "react-toastify";
 
 const FirebaseContext = createContext();
 
@@ -43,15 +44,14 @@ export const FirebaseProvider = (props) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((res) => {})
       .catch((err) => {
-        console.log("error");
-console.log(err);
+        toast.error("user already exist")
       });
   };
   const Loginuser = (email, password) => {
     signInWithEmailAndPassword(auth, email, password)
       .then((res) => {})
       .catch(() => {
-        alert("email or Password is inCorrect");
+        toast.error("email or Password is inCorrect");
       });
   };
   const [User, setUser] = useState(null);
@@ -70,7 +70,7 @@ console.log(err);
         setUser(null);
       })
       .catch(() => {
-        console.log("error");
+      
       });
   };
   const isLogin = User ? true : false;

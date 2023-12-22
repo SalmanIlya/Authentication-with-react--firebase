@@ -53,7 +53,7 @@ const CreateBlog = () => {
               <div className="space-y-4 md:space-y-6">
                 <div>
                   <label
-                    for="title"
+                    htmlFor="title"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Title
@@ -73,7 +73,7 @@ const CreateBlog = () => {
                 </div>
                 <div>
                   <label
-                    for="Description"
+                    htmlFor="Description"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Description
@@ -95,7 +95,7 @@ const CreateBlog = () => {
 
                 <div className="flex items-center justify-center w-full">
                   <label
-                    for="dropzone-file"
+                    htmlFor="dropzone-file"
                     className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
                   >
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
