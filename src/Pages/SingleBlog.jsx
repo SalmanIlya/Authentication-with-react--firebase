@@ -38,7 +38,7 @@ const SingleBlog = () => {
   }
 
   return (
-    <div className="flex flex-col  items-center max-h-auto min-h-screen  p-20">
+    <div className="flex flex-col  items-center max-h-auto min-h-screen  p-20 bg-gray-200 ">
       <img src={url} alt="" className="lg:h-1/2 lg:w-1/2 rounded-2xl " />
       <div>
         <h1 className="text-3xl font-bold text-gray-800 h-auto">
