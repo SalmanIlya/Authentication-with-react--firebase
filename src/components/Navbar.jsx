@@ -5,7 +5,7 @@ import { Usefirebase } from "../Context/Firebase";
 const Navbar = () => {
   const firebase = Usefirebase();
   const [hidde, sethidde] = useState(true);
-  // console.log(firebase.User.email);
+ 
   return (
     <div>
       <nav className=" border-gray-200 dark:bg-gray-900 bg-white">
