@@ -41,11 +41,10 @@ const googleProvider = new GoogleAuthProvider();
 export const FirebaseProvider = (props) => {
   const signupuser = (email, password) => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then((res) => {
-     
-      })
-      .catch(() => {
+      .then((res) => {})
+      .catch((err) => {
         console.log("error");
+console.log(err);
       });
   };
   const Loginuser = (email, password) => {
@@ -85,7 +84,7 @@ export const FirebaseProvider = (props) => {
   const CreateBlogspage = async (title, description, img) => {
     const imageupload = ref(Storage, `upload/images/${Date.now()}-${img.name}`);
     const uploadimg = await uploadBytes(imageupload, img);
-  
+
     return await addDoc(collection(firestore, "Addblogs"), {
       title: title,
       description: description,
@@ -122,4 +121,3 @@ export const FirebaseProvider = (props) => {
     </FirebaseContext.Provider>
   );
 };
-
