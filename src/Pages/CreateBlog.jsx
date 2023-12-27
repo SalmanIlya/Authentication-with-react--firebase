@@ -1,41 +1,37 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { Usefirebase } from "../Context/Firebase";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 const CreateBlog = () => {
-  const firebase = Usefirebase();
+ 
   const [Title, setTitle] = useState("");
   const [Description, setDescription] = useState("");
-  const [image, setimage] = useState("");
+  const [image, setimage] = useState(null);
   const navigator = useNavigate();
+  const User=useSelector((State)=>State.User.User)
+
+  const formData =new FormData();
+  
+  
   const SendData = () => {
-    if (!firebase.isLogin) {
-      toast.info(" please Login First")
-      navigator("/Login");
-    } else {
-      const tit = Title === "";
-      const des = Description === "";
-      const img = image === "";
-    
-      if (tit) {
-       
-        toast.error("title is required")
-      } else if (des) {
-       
-        toast.error("description is required")
-      } else if (img) {
-        toast.error("image is required")
-      } else {
-        firebase.CreateBlogspage(Title, Description, image).then(() => {
-          toast.success("blog is created")
-          navigator("/");
-          setTitle("");
-          setDescription("");
-          setimage("");
-        });
-      }
-    }
+  formData.append("UserId",User._id)
+  formData.append("title",Title)
+  formData.append("desc",Description)
+  formData.append("img",image)
+ console.log(image);
+  console.log(formData);
+    axios.post(`http://localhost:5000/api/post/create/${User._id}`,formData).then((res)=>{
+      navigator("/")
+    }).catch((err)=>{
+      console.log("error :",err);
+    })
+  }
+  const handleChange = (e) => {
+    setimage(e.target.files[0]);
   };
+
+    
 
   return (
     <div className=" bg-gray-200">
@@ -125,9 +121,7 @@ const CreateBlog = () => {
                     <input
                       id="dropzone-file"
                       type="file"
-                      onChange={(e) => {
-                        setimage(e.target.files[0]);
-                      }}
+                      onChange={handleChange}
                       className="hidden"
                       required="true"
                     />

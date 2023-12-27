@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Link, NavLink, NavNavLink } from "react-router-dom";
-import { Usefirebase } from "../Context/Firebase";
+
+import { useDispatch, useSelector } from "react-redux";
+import { deleteUser } from "./Store/User";
 
 const Navbar = () => {
-  const firebase = Usefirebase();
-  const [hidde, sethidde] = useState(true);
- 
+  const User=useSelector((state)=>state.User.User)
+  console.log(User);
+  const dispatch=useDispatch()
   return (
     <div>
       <nav className=" border-gray-200 dark:bg-gray-900 bg-white">
@@ -21,7 +23,7 @@ const Navbar = () => {
           <button
             data-collapse-toggle="navbar-default"
             onClick={() => {
-              sethidde(!hidde);
+              dispatch(deleteUser());
             }}
             type="button"
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
@@ -47,7 +49,7 @@ const Navbar = () => {
           </button>
           <div
             className={
-              hidde
+              User
                 ? "hidden w-full md:block md:w-auto"
                 : ` w-full md:block md:w-auto`
             }
@@ -79,11 +81,11 @@ const Navbar = () => {
                   Add Blogs
                 </NavLink>
               </li>
-              {firebase.isLogin ? (
+              {User.userName ? (
                 <li>
                   <Link
                     onClick={() => {
-                      firebase.logoutuser();
+                    dispatch(deleteUser())
                     }}
                     className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                   >

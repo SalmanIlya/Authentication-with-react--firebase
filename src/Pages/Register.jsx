@@ -1,15 +1,17 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { Usefirebase } from "../Context/Firebase";
-import { FcGoogle } from "react-icons/fc";
 import { ToastContainer, toast } from 'react-toastify';
+import { getUser } from "../components/Store/User";
 const Register = () => {
   const navigate = useNavigate();
-  const firebase = Usefirebase();
+  const [userName, setuserName] = useState("");
   const [Email, setEmail] = useState("");
   const [ConfurmPassword, setConfurmPassword] = useState("");
   const [Password, setPassword] = useState("");
-  const RegisterUser = () => {
+  const dispatch=useDispatch()
+  const RegisterUser = async () => {
     if (!Email) {
       toast.error("all fields are required")
     } else
@@ -26,8 +28,12 @@ toast.error("password must be 8 characters")
       }else{
 
         if (Password === ConfurmPassword) {
-          firebase.signupuser(Email, Password);
-          navigate("/Login");
+         await axios.post("http://localhost:5000/auth/Register",{"userName":userName,"email":Email,"Password":Password}).then((res)=>{
+          dispatch(getUser(res.data))
+          navigate("/")
+        }).catch((err)=>{
+          console.log("error :",err);
+        })
        toast.success("Account Create Successfully")
         } else {
           toast.error("Password does not match")
@@ -37,12 +43,7 @@ toast.error("password must be 8 characters")
      
     }
   };
-
-  useEffect(() => {
-    if (firebase.isLogin) {
-      navigate("/");
-    }
-  }, [firebase, navigate]);
+  
   return (
     <div>
       <section className="bg-gray-200 dark:bg-gray-900 max-h-auto min-h-screen">
@@ -57,6 +58,26 @@ toast.error("password must be 8 characters")
                 Create Your Account
               </h1>
               <div className="space-y-4 md:space-y-6">
+              <div>
+                  <label
+                    htmlFor="Name"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Your Name
+                  </label>
+                  <input
+                    type="Name"
+                    onChange={(e) => {
+                      setuserName(e.target.value);
+                    }}
+                    name="Name"
+                    id="Name"
+                    value={userName}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Name"
+                    required="true"
+                  />
+                </div>
                 <div>
                   <label
                     htmlFor="email"

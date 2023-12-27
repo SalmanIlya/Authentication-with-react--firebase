@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Usefirebase } from "../Context/Firebase";
 import Card from "../components/Card";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const Home = () => {
-  const firebase = Usefirebase();
   const [Blogs, setBlogs] = useState([]);
-
+  const navigate=useNavigate()
   useEffect(() => {
-    firebase.getAllBlogs().then((res) => {
-      setBlogs(res.docs);
-    });
-  }, [firebase]);
+   const getdata=async()=>{
+    await axios.get("http://localhost:5000/api/post/").then((res)=>{
+  setBlogs(res.data)
+      navigate("/")
+    }).catch((err)=>{
+      console.log("error :",err);
+    })
+   }
+   getdata()
+  }, [navigate]);
+  console.log("all blogs",Blogs);
   if (Blogs == []) {
     return (
       <div className="flex flex-col justify-center items-center ">
@@ -32,14 +39,14 @@ const Home = () => {
       <h1 className="text-center text-4xl font-extrabold  my-20">All Blogs</h1>
       <div className=" min-h-screen max-h-auto flex flex-row justify-center items-center flex-wrap ">
         {Blogs.map((item) => {
-          const data = item.data();
+   
         
           return (
             <div
-              key={data.date}
+              key={item._id}
               className=" flex flex-row justify-center items-center"
             >
-              <Card data={data} id={item.id} />
+              <Card data={item} id={item._id} />
             </div>
           );
         })}

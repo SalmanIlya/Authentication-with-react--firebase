@@ -1,21 +1,16 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { Usefirebase } from "../Context/Firebase";
-import { FcGoogle } from "react-icons/fc";
 import { ToastContainer, toast } from 'react-toastify';
+import { getUser } from "../components/Store/User";
 const Login = () => {
   const navigate = useNavigate();
-  const firebase = Usefirebase();
+ 
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
-  useEffect(() => {
-    if (firebase.isLogin) {
-      navigate("/");
-      toast.success("Login successfully")
-
-    }
-  }, [firebase, navigate]);
-  const LoginUser = () => {
+const dispatch=useDispatch()
+  const LoginUser =async () => {
     if (!Email) {
       toast.error("all fealds are required");
     } else if(!Password){
@@ -23,9 +18,13 @@ const Login = () => {
 
     }
      else {
-      firebase.Loginuser(Email, Password);
-      navigate("/");
-      toast.success("Login successfully")
+      await axios.post("http://localhost:5000/auth/Login",{"email":Email,"Password":Password}).then((res)=>{
+        console.log(res.data);
+        dispatch(getUser(res.data.user))
+        navigate("/")
+      }).catch((err)=>{
+        console.log("error :",err);
+      })
     }
   };
   
